@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/DHL">
+    <Resource auth="Container" 
+    driverClassName="com.mysql.jdbc.Driver" 
+    maxActive="8" 
+    maxIdle="4" 
+    name="jdbc/db_esercitazione" 
+    password="engim" 
+    type="javax.sql.DataSource" 
+    url="jdbc:mysql://localhost:3306/db_esercitazione?
+zeroDateTimeBehavior=convertToNull&amp;
+autoReconnect=true" 
+    username="root"/>  
+</Context>

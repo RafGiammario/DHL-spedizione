@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spedizioni</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div>
+      <wicket:extend>
+        <h1 class="cls_titolo">Spedizioni</h1>
+
+        <table wicket:id="elencospedizioni">
+          [...] qui ci pensa Wicket
+        </table>
+        <form wicket:id="addspedizione">
+         <fieldset>
+           <label for="numero">Numero:
+             <input type="text" wicket:id="numero" id="numero">
+           </label>
+           <label for="descrizione">Data:
+             <input type="text" wicket:id="data" id="data">
+           </label>
+         </fieldset>
+         <input type="submit" value="Aggiungi">
+        </form>
+        <span wicket:id="feedback"></span>
+      </wicket:extend>
+    </div>
+  </body>
+</html>

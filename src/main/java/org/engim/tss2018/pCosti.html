@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Costi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div>
+      <wicket:extend>
+      <h1>Costi</h1>
+
+      <table wicket:id="elencocosti">
+        [...] qui ci pensa Wicket
+      </table>
+      <form wicket:id="addcosto">
+        <fieldset>
+          <label for="nome_mezzo">Nome mezzo:
+            <input type="text" wicket:id="nomeMezzo" id="nome_mezzo">
+          </label>
+          <label for="peso_massimo">Peso massimo:
+            <input type="text" wicket:id="pesoMassimo" id="peso_massimo">
+          </label>
+          <label for="costo">Costo:
+            <input type="text" wicket:id="costo" id="costo">
+          </label>
+        </fieldset>
+        <input type="submit" value="Aggiungi">
+        <span wicket:id="feedback"></span>
+      </form>
+    </wicket:extend>
+    </div>
+  </body>
+</html>
