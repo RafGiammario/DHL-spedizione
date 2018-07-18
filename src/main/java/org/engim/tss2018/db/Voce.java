@@ -22,11 +22,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,15 +35,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author svilupposw
  */
 @Entity
-@Table(name = "costo_mezzo_trasporto")
+@Table(name = "voce")
 @XmlRootElement
 @NamedQueries({
-  @NamedQuery(name = "CostoMezzoTrasporto.findAll", query = "SELECT c FROM CostoMezzoTrasporto c")
-  , @NamedQuery(name = "CostoMezzoTrasporto.findById", query = "SELECT c FROM CostoMezzoTrasporto c WHERE c.id = :id")
-  , @NamedQuery(name = "CostoMezzoTrasporto.findByNomeMezzo", query = "SELECT c FROM CostoMezzoTrasporto c WHERE c.nomeMezzo = :nomeMezzo")
-  , @NamedQuery(name = "CostoMezzoTrasporto.findByPesoMassimo", query = "SELECT c FROM CostoMezzoTrasporto c WHERE c.pesoMassimo = :pesoMassimo")
-  , @NamedQuery(name = "CostoMezzoTrasporto.findByCosto", query = "SELECT c FROM CostoMezzoTrasporto c WHERE c.costo = :costo")})
-public class CostoMezzoTrasporto implements Serializable, ChiavePrimaria {
+  @NamedQuery(name = "Voce.findAll", query = "SELECT v FROM Voce v")
+  , @NamedQuery(name = "Voce.findById", query = "SELECT v FROM Voce v WHERE v.id = :id")
+  , @NamedQuery(name = "Voce.findByQuantita", query = "SELECT v FROM Voce v WHERE v.quantita = :quantita")})
+public class Voce implements Serializable, ChiavePrimaria {
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -52,30 +51,25 @@ public class CostoMezzoTrasporto implements Serializable, ChiavePrimaria {
   private Integer id;
   @Basic(optional = false)
   @NotNull
-  @Size(min = 1, max = 20)
-  @Column(name = "nome_mezzo")
-  private String nomeMezzo;
-  @Basic(optional = false)
-  @NotNull
-  @Column(name = "peso_massimo")
-  private float pesoMassimo;
-  @Basic(optional = false)
-  @NotNull
-  @Column(name = "costo")
-  private float costo;
+  @Column(name = "quantita")
+  private int quantita;
+  @JoinColumn(name = "id_ordine", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Ordine idOrdine;
+  @JoinColumn(name = "id_articolo", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Articolo idArticolo;
 
-  public CostoMezzoTrasporto() {
+  public Voce() {
   }
 
-  public CostoMezzoTrasporto(Integer id) {
+  public Voce(Integer id) {
     this.id = id;
   }
 
-  public CostoMezzoTrasporto(Integer id, String nomeMezzo, float pesoMassimo, float costo) {
+  public Voce(Integer id, int quantita) {
     this.id = id;
-    this.nomeMezzo = nomeMezzo;
-    this.pesoMassimo = pesoMassimo;
-    this.costo = costo;
+    this.quantita = quantita;
   }
 
   public Integer getId() {
@@ -86,28 +80,28 @@ public class CostoMezzoTrasporto implements Serializable, ChiavePrimaria {
     this.id = id;
   }
 
-  public String getNomeMezzo() {
-    return nomeMezzo;
+  public int getQuantita() {
+    return quantita;
   }
 
-  public void setNomeMezzo(String nomeMezzo) {
-    this.nomeMezzo = nomeMezzo;
+  public void setQuantita(int quantita) {
+    this.quantita = quantita;
   }
 
-  public float getPesoMassimo() {
-    return pesoMassimo;
+  public Ordine getIdOrdine() {
+    return idOrdine;
   }
 
-  public void setPesoMassimo(float pesoMassimo) {
-    this.pesoMassimo = pesoMassimo;
+  public void setIdOrdine(Ordine idOrdine) {
+    this.idOrdine = idOrdine;
   }
 
-  public float getCosto() {
-    return costo;
+  public Articolo getIdArticolo() {
+    return idArticolo;
   }
 
-  public void setCosto(float costo) {
-    this.costo = costo;
+  public void setIdArticolo(Articolo idArticolo) {
+    this.idArticolo = idArticolo;
   }
 
   @Override
@@ -120,10 +114,10 @@ public class CostoMezzoTrasporto implements Serializable, ChiavePrimaria {
   @Override
   public boolean equals(Object object) {
     // TODO: Warning - this method won't work in the case the id fields are not set
-    if (!(object instanceof CostoMezzoTrasporto)) {
+    if (!(object instanceof Voce)) {
       return false;
     }
-    CostoMezzoTrasporto other = (CostoMezzoTrasporto) object;
+    Voce other = (Voce) object;
     if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
       return false;
     }
@@ -132,7 +126,7 @@ public class CostoMezzoTrasporto implements Serializable, ChiavePrimaria {
 
   @Override
   public String toString() {
-    return "org.engim.tss2018.db.CostoMezzoTrasporto[ id=" + id + " ]";
+    return "org.engim.tss2018.db.Voce[ id=" + id + " ]";
   }
   
 }

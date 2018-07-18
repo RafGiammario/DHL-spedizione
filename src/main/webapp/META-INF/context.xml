@@ -4,10 +4,10 @@
     driverClassName="com.mysql.jdbc.Driver" 
     maxActive="8" 
     maxIdle="4" 
-    name="jdbc/db_esercitazione" 
+    name="jdbc/db_esame" 
     password="engim" 
     type="javax.sql.DataSource" 
-    url="jdbc:mysql://localhost:3306/db_esercitazione?
+    url="jdbc:mysql://localhost:3306/db_esame?
 zeroDateTimeBehavior=convertToNull&amp;
 autoReconnect=true" 
     username="root"/>  

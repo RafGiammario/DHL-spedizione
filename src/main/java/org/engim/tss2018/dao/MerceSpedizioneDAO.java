@@ -3,25 +3,26 @@ package org.engim.tss2018.dao;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import org.engim.tss2018.PM;
-import org.engim.tss2018.db.CostoMezzoTrasporto;
-import org.engim.tss2018.db.MerceSpedizione;
-import org.engim.tss2018.db.Spedizione;
+import org.engim.tss2018.db.TariffaCorriere;
+import org.engim.tss2018.db.Voce;
+import org.engim.tss2018.db.Ordine;
 
 public class MerceSpedizioneDAO
 {
  
- public static float pesoTotale (Spedizione s) {
+ public static float pesoTotale (Ordine o) {
    Float result = new Float("0.0f");
    EntityManager db = PM.db();
    try
     {
-      Spedizione reloaded = db.find(Spedizione.class, s.getId());
-      Collection<MerceSpedizione> mercispedite = reloaded.getMerceSpedizioneCollection();
+      Ordine reloaded = db.find(Ordine.class, o.getId());
+      Collection<Voce> voci = reloaded.getVoceCollection();
       
-      for (MerceSpedizione mercespedita : mercispedite) {
-         int quntita = mercespedita.getQuantita();
-         float pesomerce = mercespedita.getIdMerce().getPeso();
+      for (Voce v : voci) {
+         int quntita = v.getQuantita();
+         float pesomerce = v.getIdArticolo().getPeso();
          result += pesomerce*quntita;
       }
       
@@ -33,36 +34,30 @@ public class MerceSpedizioneDAO
     }
  }
 
-    public static String costoMinimo(Spedizione s) {
+    public static TariffaCorriere costoMinimo(Ordine o) {
       
-        List<CostoMezzoTrasporto> cmt;
+        List<TariffaCorriere> cmt;
         EntityManager db = PM.db();
-        Float pesoMerce = pesoTotale(s);
+        Float pesoMerce = pesoTotale(o);
         
         try
          { 
-           String nm;
            Float pm;
-           Float cm;
            
-           cmt = db.createQuery("SELECT c FROM CostoMezzoTrasporto c ORDER BY c.pesoMassimo ASC", CostoMezzoTrasporto.class).getResultList();
+           cmt = db.createNamedQuery("TariffaCorriere.findAllOrder", TariffaCorriere.class).getResultList();
            for (int i = 0; i < cmt.size(); i++) {
-               CostoMezzoTrasporto mdt = cmt.get(i);
-               nm = mdt.getNomeMezzo();
-               pm = mdt.getPesoMassimo();
-               cm = mdt.getCosto();
+               TariffaCorriere tc = cmt.get(i);              
+               pm = tc.getPesoMassimo();              
 
                if (pesoMerce < pm) {
-                   return "€" + String.format("%.2f", cm) + "(" + nm + ")";                     
+                   return tc;                    
                }
-           }
-             
-           return "Non è possibile spedire tutto insieme";
+           }             
+           return null;
          }
          finally
          {
            db.close();
          }        
-    }
- 
+    } 
 }

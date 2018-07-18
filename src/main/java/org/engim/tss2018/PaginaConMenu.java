@@ -22,7 +22,6 @@ public class PaginaConMenu extends WebPage {
   {
     NavMenu menu = new NavMenu("navmenu");
     add(menu);
-
   }
     
   

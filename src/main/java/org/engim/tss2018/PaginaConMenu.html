@@ -16,19 +16,22 @@ limitations under the License.
 -->
 <html>
     <head>
-        <title>Menu di navigazione</title>
+        <title>SPEDIZIONI</title>
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style type="text/css">
+          #wicketDebugLink {
+            display: none;
+          }
+        </style>
     </head>
     <body>
-        <div>
-             <wicket:container wicket:id="navmenu"></wicket:container>
-        
-            
-        </div>
+      <div>
+        <wicket:container wicket:id="navmenu"></wicket:container>           
+      </div>
      <!-- PAGINE CHE DERIVANO DA navmenu -->
-        <wicket:child/>
+     <wicket:child/>
     </body>
 </html>

@@ -30,6 +30,7 @@ public class GenericoDAO
     EntityTransaction et = em.getTransaction();
     try {
       et.begin();
+      p = em.find(p.getClass(), p.getId());
       em.merge(p);
       et.commit();
     } 

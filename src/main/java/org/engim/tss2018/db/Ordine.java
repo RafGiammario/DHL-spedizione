@@ -38,17 +38,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author svilupposw
  */
 @Entity
-@Table(name = "spedizione")
+@Table(name = "ordine")
 @XmlRootElement
 @NamedQueries({
-  @NamedQuery(name = "Spedizione.findAll", query = "SELECT s FROM Spedizione s")
-  , @NamedQuery(name = "Spedizione.findById", query = "SELECT s FROM Spedizione s WHERE s.id = :id")
-  , @NamedQuery(name = "Spedizione.findByNumero", query = "SELECT s FROM Spedizione s WHERE s.numero = :numero")
-  , @NamedQuery(name = "Spedizione.findByData", query = "SELECT s FROM Spedizione s WHERE s.data = :data")})
-public class Spedizione implements Serializable, ChiavePrimaria {
-
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSpedizione")
-  private Collection<MerceSpedizione> merceSpedizioneCollection;
+  @NamedQuery(name = "Ordine.findAll", query = "SELECT o FROM Ordine o")
+  , @NamedQuery(name = "Ordine.findById", query = "SELECT o FROM Ordine o WHERE o.id = :id")
+  , @NamedQuery(name = "Ordine.findByNumero", query = "SELECT o FROM Ordine o WHERE o.numero = :numero")
+  , @NamedQuery(name = "Ordine.findByData", query = "SELECT o FROM Ordine o WHERE o.data = :data")})
+public class Ordine implements Serializable, ChiavePrimaria {
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -65,15 +62,17 @@ public class Spedizione implements Serializable, ChiavePrimaria {
   @Size(min = 1, max = 5)
   @Column(name = "data")
   private String data;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrdine")
+  private Collection<Voce> voceCollection;
 
-  public Spedizione() {
+  public Ordine() {
   }
 
-  public Spedizione(Integer id) {
+  public Ordine(Integer id) {
     this.id = id;
   }
 
-  public Spedizione(Integer id, int numero, String data) {
+  public Ordine(Integer id, int numero, String data) {
     this.id = id;
     this.numero = numero;
     this.data = data;
@@ -103,6 +102,15 @@ public class Spedizione implements Serializable, ChiavePrimaria {
     this.data = data;
   }
 
+  @XmlTransient
+  public Collection<Voce> getVoceCollection() {
+    return voceCollection;
+  }
+
+  public void setVoceCollection(Collection<Voce> voceCollection) {
+    this.voceCollection = voceCollection;
+  }
+
   @Override
   public int hashCode() {
     int hash = 0;
@@ -113,10 +121,10 @@ public class Spedizione implements Serializable, ChiavePrimaria {
   @Override
   public boolean equals(Object object) {
     // TODO: Warning - this method won't work in the case the id fields are not set
-    if (!(object instanceof Spedizione)) {
+    if (!(object instanceof Ordine)) {
       return false;
     }
-    Spedizione other = (Spedizione) object;
+    Ordine other = (Ordine) object;
     if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
       return false;
     }
@@ -125,16 +133,7 @@ public class Spedizione implements Serializable, ChiavePrimaria {
 
   @Override
   public String toString() {
-    return "org.engim.tss2018.db.Spedizione[ id=" + id + " ]";
-  }
-
-  @XmlTransient
-  public Collection<MerceSpedizione> getMerceSpedizioneCollection() {
-    return merceSpedizioneCollection;
-  }
-
-  public void setMerceSpedizioneCollection(Collection<MerceSpedizione> merceSpedizioneCollection) {
-    this.merceSpedizioneCollection = merceSpedizioneCollection;
+    return "org.engim.tss2018.db.Ordine[ id=" + id + " ]";
   }
   
 }

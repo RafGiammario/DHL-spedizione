@@ -38,18 +38,15 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author svilupposw
  */
 @Entity
-@Table(name = "merce")
+@Table(name = "articolo")
 @XmlRootElement
 @NamedQueries({
-  @NamedQuery(name = "Merce.findAll", query = "SELECT m FROM Merce m")
-  , @NamedQuery(name = "Merce.findById", query = "SELECT m FROM Merce m WHERE m.id = :id")
-  , @NamedQuery(name = "Merce.findByCodice", query = "SELECT m FROM Merce m WHERE m.codice = :codice")
-  , @NamedQuery(name = "Merce.findByDescrizione", query = "SELECT m FROM Merce m WHERE m.descrizione = :descrizione")
-  , @NamedQuery(name = "Merce.findByPeso", query = "SELECT m FROM Merce m WHERE m.peso = :peso")})
-public class Merce implements Serializable, ChiavePrimaria {
-
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMerce")
-  private Collection<MerceSpedizione> merceSpedizioneCollection;
+  @NamedQuery(name = "Articolo.findAll", query = "SELECT a FROM Articolo a")
+  , @NamedQuery(name = "Articolo.findById", query = "SELECT a FROM Articolo a WHERE a.id = :id")
+  , @NamedQuery(name = "Articolo.findByCodice", query = "SELECT a FROM Articolo a WHERE a.codice = :codice")
+  , @NamedQuery(name = "Articolo.findByDescrizione", query = "SELECT a FROM Articolo a WHERE a.descrizione = :descrizione")
+  , @NamedQuery(name = "Articolo.findByPeso", query = "SELECT a FROM Articolo a WHERE a.peso = :peso")})
+public class Articolo implements Serializable, ChiavePrimaria {
 
   private static final long serialVersionUID = 1L;
   @Id
@@ -71,15 +68,17 @@ public class Merce implements Serializable, ChiavePrimaria {
   @NotNull
   @Column(name = "peso")
   private float peso;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "idArticolo")
+  private Collection<Voce> voceCollection;
 
-  public Merce() {
+  public Articolo() {
   }
 
-  public Merce(Integer id) {
+  public Articolo(Integer id) {
     this.id = id;
   }
 
-  public Merce(Integer id, String codice, String descrizione, float peso) {
+  public Articolo(Integer id, String codice, String descrizione, float peso) {
     this.id = id;
     this.codice = codice;
     this.descrizione = descrizione;
@@ -118,6 +117,15 @@ public class Merce implements Serializable, ChiavePrimaria {
     this.peso = peso;
   }
 
+  @XmlTransient
+  public Collection<Voce> getVoceCollection() {
+    return voceCollection;
+  }
+
+  public void setVoceCollection(Collection<Voce> voceCollection) {
+    this.voceCollection = voceCollection;
+  }
+
   @Override
   public int hashCode() {
     int hash = 0;
@@ -128,10 +136,10 @@ public class Merce implements Serializable, ChiavePrimaria {
   @Override
   public boolean equals(Object object) {
     // TODO: Warning - this method won't work in the case the id fields are not set
-    if (!(object instanceof Merce)) {
+    if (!(object instanceof Articolo)) {
       return false;
     }
-    Merce other = (Merce) object;
+    Articolo other = (Articolo) object;
     if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
       return false;
     }
@@ -140,16 +148,7 @@ public class Merce implements Serializable, ChiavePrimaria {
 
   @Override
   public String toString() {
-    return "org.engim.tss2018.db.Merce[ id=" + id + " ]";
-  }
-
-  @XmlTransient
-  public Collection<MerceSpedizione> getMerceSpedizioneCollection() {
-    return merceSpedizioneCollection;
-  }
-
-  public void setMerceSpedizioneCollection(Collection<MerceSpedizione> merceSpedizioneCollection) {
-    this.merceSpedizioneCollection = merceSpedizioneCollection;
+    return "org.engim.tss2018.db.Articolo[ id=" + id + " ]";
   }
   
 }
